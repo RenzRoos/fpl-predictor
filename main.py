@@ -23,7 +23,7 @@ def main():
     ]
     TARGET = 'total_points'
 
-    predictions_df = predict_gameweek(data, players, GW, FEATURES, TARGET)
+    predictions_df = predict_gameweek(data, players, GW, FEATURES, TARGET, N_RUNS=5)
 
     out_path = f"data/gw{GW}_predicted_points.csv"
     predictions_df.to_csv(out_path, columns=["player_id","player_name","round","predicted_points"], index=False)

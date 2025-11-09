@@ -9,9 +9,8 @@ from utils.get_player_data import get_player_match_history
 from utils.feature_rows import build_X_pred_for_gw
 from utils.play_probability import get_play_probability
 
-def predict_gameweek(data: pd.DataFrame, players_df: pd.DataFrame, gw: int, FEATURES: list, TARGET: str) -> pd.DataFrame:
+def predict_gameweek(data: pd.DataFrame, players_df: pd.DataFrame, gw: int, FEATURES: list, TARGET: str, N_RUNS: int) -> pd.DataFrame:
     results = []
-    N_RUNS = 1
 
     for pid, name in zip(players_df['id'], players_df['web_name']):
         mh = get_player_match_history(data, pid)
