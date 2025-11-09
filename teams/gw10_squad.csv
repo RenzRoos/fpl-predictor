@@ -1,0 +1,16 @@
+player_id,player_name,position,round,predicted_points,actual_points
+5,Gabriel,DEF,10,7.5,12
+226,Chalobah,DEF,10,6.045,7
+260,Guéhi,DEF,10,5.935,10
+8,J.Timber,DEF,10,5.69,6
+317,Andersen,DEF,10,5.5,6
+430,Haaland,FWD,10,8.55,13
+136,Thiago,FWD,10,6.165,2
+249,João Pedro,FWD,10,5.49,9
+670,Roefs,GK,10,5.995,2
+1,Raya,GK,10,5.91,6
+82,Semenyo,MID,10,6.745,2
+119,Mbeumo,MID,10,6.395,2
+449,B.Fernandes,MID,10,5.09,5
+241,Caicedo,MID,10,5.07,10
+120,Schade,MID,10,4.91,1
