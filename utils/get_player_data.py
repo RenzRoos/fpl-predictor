@@ -87,7 +87,7 @@ def get_player_match_history(data: pd.DataFrame, player_id: int) -> pd.DataFrame
     # Helpful identifiers
     full["player_id"] = player_id
     full["fdr_score"] = full.apply(
-        lambda r: get_fdr(data, int(r["round"]), str(r["opponent_name"]), bool(r["was_home"])),
+        lambda r: get_fdr(int(r["round"]), str(r["opponent_name"]), bool(r["was_home"])),
         axis=1
     )
 

@@ -3,7 +3,7 @@ import pandas as pd
 from functools import lru_cache
 
 @lru_cache(maxsize=None)
-def get_fdr(data: pd.DataFrame, gameweek: int, opponent: str, home: bool) -> int:
+def get_fdr(gameweek: int, opponent: str, home: bool) -> int:
     """
     Return the FPL difficulty rating (FDR) for a given opponent in a specific gameweek.
 
@@ -23,7 +23,7 @@ def get_fdr(data: pd.DataFrame, gameweek: int, opponent: str, home: bool) -> int
     """
 
     # Load team metadata for name <-> id mapping
-    bootstrap = data
+    bootstrap = requests.get("https://fantasy.premierleague.com/api/bootstrap-static/").json()
     teams = pd.DataFrame(bootstrap["teams"])[["id", "name"]]
     name_to_id = {n.lower(): i for i, n in zip(teams["id"], teams["name"])}
 
