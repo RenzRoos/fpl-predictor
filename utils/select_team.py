@@ -2,31 +2,74 @@ import pandas as pd
 import sys
 
 def create_team(GW: int, predictions_df: pd.DataFrame, players: pd.DataFrame):
-    print(predictions_df.head())
+    # Prepare data with position + team + availability
     pos_map = {1: "GK", 2: "DEF", 3: "MID", 4: "FWD"}
     pred_pos = predictions_df.merge(
-        players[["id", "element_type", "status", "chance_of_playing_next_round"]],
+        players[["id", "element_type", "team", "status", "chance_of_playing_next_round"]],
         left_on="player_id", right_on="id", how="left"
     ).drop(columns=["id"])
     pred_pos["position"] = pred_pos["element_type"].map(pos_map)
 
+    # Availability filter
     pred_pos = pred_pos[
         (pred_pos["chance_of_playing_next_round"].fillna(100) >= 50)
-        & (~pred_pos["status"].isin(["i", "s", "u"]))  # i=injured, s=suspended, u=unavailable
-    ]
+        & (~pred_pos["status"].isin(["i", "s", "u"]))
+    ].copy()
 
-    gks  = pred_pos.loc[pred_pos["position"] == "GK"].nlargest(2, "predicted_points")
-    defs = pred_pos.loc[pred_pos["position"] == "DEF"].nlargest(5, "predicted_points")
-    mids = pred_pos.loc[pred_pos["position"] == "MID"].nlargest(5, "predicted_points")
-    fwds = pred_pos.loc[pred_pos["position"] == "FWD"].nlargest(3, "predicted_points")
+    # Keep only needed columns
+    pred_pos["predicted_points"] = pd.to_numeric(pred_pos["predicted_points"], errors="coerce").fillna(0.0)
+    pred_pos = pred_pos[["player_id","player_name","position","round","predicted_points","team"]].reset_index(drop=True)
 
-    squad_df = pd.concat([gks, defs, mids, fwds], ignore_index=True)
-    squad_df = squad_df[
-        ["player_id","player_name","position","round","predicted_points"]
-    ].sort_values(
-        ["position","predicted_points"], ascending=[True, False]
-    ).reset_index(drop=True)
+    # Required counts per position
+    req = {"GK": 2, "DEF": 5, "MID": 5, "FWD": 3}
+    teams = pred_pos["team"].unique().tolist()
 
+    # --- Try exact optimization with ILP ---
+    try:
+        import pulp
+
+        # Decision vars
+        idx = list(pred_pos.index)
+        x = pulp.LpVariable.dicts("pick", idx, lowBound=0, upBound=1, cat="Binary")
+
+        prob = pulp.LpProblem("FPL_Squad_Select", pulp.LpMaximize)
+        # Objective
+        prob += pulp.lpSum(pred_pos.loc[i, "predicted_points"] * x[i] for i in idx)
+
+        # Position constraints
+        for p, k in req.items():
+            prob += pulp.lpSum(x[i] for i in idx if pred_pos.loc[i, "position"] == p) == k
+
+        # Team cap ≤ 3
+        for t in teams:
+            prob += pulp.lpSum(x[i] for i in idx if pred_pos.loc[i, "team"] == t) <= 3
+
+        # Solve
+        _ = prob.solve(pulp.PULP_CBC_CMD(msg=False))
+
+        chosen = [i for i in idx if pulp.value(x[i]) == 1]
+        squad_df = pred_pos.loc[chosen, ["player_id","player_name","position","round","predicted_points"]]
+        squad_df = squad_df.sort_values(["position","predicted_points"], ascending=[True, False]).reset_index(drop=True)
+
+    except Exception:
+        # --- Greedy fallback (feasible, not guaranteed optimal) ---
+        remaining = req.copy()
+        team_count = {t: 0 for t in teams}
+        chosen_rows = []
+
+        for _, row in pred_pos.sort_values("predicted_points", ascending=False).iterrows():
+            pos = row["position"]; team = row["team"]
+            if remaining.get(pos, 0) > 0 and team_count[team] < 3:
+                chosen_rows.append(row)
+                remaining[pos] -= 1
+                team_count[team] += 1
+                if sum(remaining.values()) == 0:
+                    break
+
+        squad_df = pd.DataFrame(chosen_rows)[["player_id","player_name","position","round","predicted_points"]]
+        squad_df = squad_df.sort_values(["position","predicted_points"], ascending=[True, False]).reset_index(drop=True)
+
+    # Save
     squad_path = f"teams/gw{GW}_squad.csv"
     squad_df.to_csv(squad_path, index=False)
     print(f"Saved squad to {squad_path}")
