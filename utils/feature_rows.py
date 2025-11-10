@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from utils.fixtures import fixture_ctx_for_gw
+from fixtures import fixture_ctx_for_gw
 
 def build_X_pred_for_gw(mh: pd.DataFrame, players_df: pd.DataFrame,
                         player_id: int, gw: int, FEATURES: list, TARGET: str):

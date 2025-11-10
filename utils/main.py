@@ -2,9 +2,9 @@ import sys
 import pandas as pd
 import requests
 
-from utils.predictor import predict_gameweek
-from utils.select_team import create_team
-from utils.config import FEATURES, TARGET
+from predictor import predict_gameweek
+from select_team import create_team
+from config import FEATURES, TARGET
 
 def main():
     if len(sys.argv) < 2:

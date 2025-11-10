@@ -2,8 +2,8 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from utils.get_points_scored import update_actual_points
-from utils.select_team import evaluate_team_performance
+from get_points_scored import update_actual_points
+from select_team import evaluate_team_performance
 
 def evaluate_predictions(gameweek: int):
     """Evaluate model accuracy for a given gameweek."""

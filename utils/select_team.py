@@ -12,6 +12,8 @@ def create_team(GW: int, predictions_df: pd.DataFrame, players: pd.DataFrame):
     ).drop(columns=["id"]).copy()
     df["position"] = df["element_type"].map(pos_map)
 
+    print(df[df["player_id"]==267][["player_name","predicted_points","position","team","status","chance_of_playing_next_round"]])
+
     # availability filter
     df = df[
         (df["chance_of_playing_next_round"].fillna(100) >= 50)

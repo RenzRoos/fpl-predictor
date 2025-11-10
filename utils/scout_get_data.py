@@ -2,8 +2,8 @@ import requests
 import pandas as pd
 import sys 
 
-from utils.config import FEATURES, TARGET
-from utils.predictor import predict_gameweek
+from config import FEATURES, TARGET
+from predictor import predict_gameweek
 
 def evaluate_scout_picks(gw: int):
     squad_path = f"scout_picks/gw{gw}_scout_picks.csv"
