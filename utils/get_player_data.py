@@ -1,7 +1,7 @@
 import pandas as pd
 import requests
 import numpy as np
-from fdr_score import get_fdr
+from utils.fdr_score import get_fdr
 
 def get_player_match_history(data: pd.DataFrame, player_id: int) -> pd.DataFrame:
     # Player -> team id and name maps

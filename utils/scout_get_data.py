@@ -2,8 +2,8 @@ import requests
 import pandas as pd
 import sys 
 
-from config import FEATURES, TARGET
-from predictor import predict_gameweek
+from utils.config import FEATURES, TARGET
+from utils.predictor import predict_gameweek
 
 def evaluate_scout_picks(gw: int):
     squad_path = f"scout_picks/gw{gw}_scout_picks.csv"
@@ -25,18 +25,7 @@ def evaluate_scout_picks(gw: int):
     team.to_csv(squad_path, index=False)
     print(f"Updated {squad_path} with actual_points column.")
 
-
-if __name__ == "__main__":
-    if len(sys.argv) < 2 or sys.argv[1] == "-e":
-        raise SystemExit("Usage: scout_get_data.py <GW> -e")
-    gw = int(sys.argv[1])
-
-    evaluate = False
-    if len(sys.argv) > 2:
-        if sys.argv[2] == "-e":
-            evaluate = True
-
-
+def scout_get_data(gw: int, evaluate: bool = False):
     data = requests.get("https://fantasy.premierleague.com/api/bootstrap-static/").json()
     players = pd.DataFrame(data["elements"])
 
@@ -50,3 +39,16 @@ if __name__ == "__main__":
 
     if evaluate:
         evaluate_scout_picks(gw)
+
+        
+if __name__ == "__main__":
+    if len(sys.argv) < 2 or sys.argv[1] == "-e":
+        raise SystemExit("Usage: scout_get_data.py <GW> -e")
+    gw = int(sys.argv[1])
+
+    evaluate = False
+    if len(sys.argv) > 2:
+        if sys.argv[2] == "-e":
+            evaluate = True
+
+    scout_get_data(gw, evaluate)
