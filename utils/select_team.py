@@ -1,8 +1,8 @@
 import pandas as pd
 import sys
+import pandas as pd
 
 def create_team(GW: int, predictions_df: pd.DataFrame, players: pd.DataFrame):
-    import pandas as pd
 
     # --- prepare data with position + team + availability ---
     pos_map = {1: "GK", 2: "DEF", 3: "MID", 4: "FWD"}
@@ -11,8 +11,6 @@ def create_team(GW: int, predictions_df: pd.DataFrame, players: pd.DataFrame):
         left_on="player_id", right_on="id", how="left"
     ).drop(columns=["id"]).copy()
     df["position"] = df["element_type"].map(pos_map)
-
-    print(df[df["player_id"]==267][["player_name","predicted_points","position","team","status","chance_of_playing_next_round"]])
 
     # availability filter
     df = df[
@@ -24,107 +22,40 @@ def create_team(GW: int, predictions_df: pd.DataFrame, players: pd.DataFrame):
     df["predicted_points"] = pd.to_numeric(df["predicted_points"], errors="coerce").fillna(0.0)
     df = df[["player_id","player_name","position","round","predicted_points","team"]].reset_index(drop=True)
 
-    # required squad counts per position (15 total)
-    req = {"GK": 2, "DEF": 5, "MID": 5, "FWD": 3}
-    teams = df["team"].unique().tolist()
-    idx = list(df.index)
+    # --- SQUAD: top-N per position (no team cap) ---
+    gks  = df.loc[df["position"] == "GK"].nlargest(2, "predicted_points")
+    defs = df.loc[df["position"] == "DEF"].nlargest(5, "predicted_points")
+    mids = df.loc[df["position"] == "MID"].nlargest(5, "predicted_points")
+    fwds = df.loc[df["position"] == "FWD"].nlargest(3, "predicted_points")
 
-    # try exact ILP
-    try:
-        import pulp
+    squad_df = pd.concat([gks, defs, mids, fwds], ignore_index=True).copy()
 
-        # decision variables
-        y = pulp.LpVariable.dicts("in_squad", idx, lowBound=0, upBound=1, cat="Binary")
-        s = pulp.LpVariable.dicts("starter",  idx, lowBound=0, upBound=1, cat="Binary")
+    # --- STARTING XI: 1 GK, ≥3 DEF, ≥2 MID, ≥1 FWD, then best remaining ---
+    xi_idx = []
 
-        prob = pulp.LpProblem("FPL_Squad_And_Lineup", pulp.LpMaximize)
+    # required minimums
+    xi_idx += list(squad_df[squad_df["position"]=="GK"].nlargest(1, "predicted_points").index)
+    xi_idx += list(squad_df.drop(index=xi_idx).loc[squad_df["position"]=="DEF"].nlargest(3, "predicted_points").index)
+    xi_idx += list(squad_df.drop(index=xi_idx).loc[squad_df["position"]=="MID"].nlargest(2, "predicted_points").index)
+    xi_idx += list(squad_df.drop(index=xi_idx).loc[squad_df["position"]=="FWD"].nlargest(1, "predicted_points").index)
 
-        # objective: prioritize starters; tiny weight for bench quality
-        prob += pulp.lpSum(df.loc[i, "predicted_points"] * s[i] for i in idx)
+    # fill remaining slots to 11 with highest predicted points
+    need = 11 - len(xi_idx)
+    if need > 0:
+        xi_idx += list(squad_df.drop(index=xi_idx).nlargest(need, "predicted_points").index)
 
-        # squad position counts (exact)
-        for p, k in req.items():
-            prob += pulp.lpSum(y[i] for i in idx if df.loc[i, "position"] == p) == k
+    squad_df["is_starter"] = squad_df.index.isin(xi_idx).astype(int)
 
-        # team cap for whole squad
-        for t in teams:
-            prob += pulp.lpSum(y[i] for i in idx if df.loc[i, "team"] == t) <= 3
+    # (optional) bench ordering: GK first, then by predicted points
+    bench = squad_df[squad_df["is_starter"]==0].copy()
+    bench_gk  = bench[bench["position"]=="GK"]
+    bench_out = bench[bench["position"]!="GK"].sort_values("predicted_points", ascending=False)
+    bench = pd.concat([bench_gk, bench_out], ignore_index=True)
+    bench["bench_order"] = range(1, len(bench)+1)
 
-        # starters: exactly 11
-        prob += pulp.lpSum(s[i] for i in idx) == 11
-
-        # starter formation constraints
-        prob += pulp.lpSum(s[i] for i in idx if df.loc[i, "position"] == "GK") == 1
-        prob += pulp.lpSum(s[i] for i in idx if df.loc[i, "position"] == "DEF") >= 3
-        prob += pulp.lpSum(s[i] for i in idx if df.loc[i, "position"] == "MID") >= 2
-        prob += pulp.lpSum(s[i] for i in idx if df.loc[i, "position"] == "FWD") >= 1
-
-        # starters must be in squad
-        for i in idx:
-            prob += s[i] <= y[i]
-
-        # solve
-        _ = prob.solve(pulp.PULP_CBC_CMD(msg=False))
-
-        chosen = [i for i in idx if pulp.value(y[i]) == 1]
-        starters = [i for i in idx if pulp.value(s[i]) == 1]
-
-        squad_df = df.loc[chosen].copy()
-        squad_df["is_starter"] = squad_df.index.isin(starters).astype(int)
-
-    except Exception:
-        # greedy fallback (feasible, not guaranteed optimal)
-        remaining = req.copy()
-        team_count = {t: 0 for t in teams}
-        chosen_rows = []
-
-        for _, row in df.sort_values("predicted_points", ascending=False).iterrows():
-            pos = row["position"]; team = row["team"]
-            if remaining.get(pos, 0) > 0 and team_count[team] < 3:
-                chosen_rows.append(row)
-                remaining[pos] -= 1
-                team_count[team] += 1
-                if sum(remaining.values()) == 0:
-                    break
-
-        squad_df = pd.DataFrame(chosen_rows).copy()
-
-        # starters: enforce GK=1, DEF>=3, MID>=2, FWD>=1
-        starters = []
-        # GK first
-        starters += list(
-            squad_df.loc[squad_df["position"]=="GK"].nlargest(1,"predicted_points").index
-        )
-        # DEF at least 3
-        starters += list(
-            squad_df.drop(index=starters).loc[squad_df["position"]=="DEF"].nlargest(3,"predicted_points").index
-        )
-        # MID at least 2
-        starters += list(
-            squad_df.drop(index=starters).loc[squad_df["position"]=="MID"].nlargest(2,"predicted_points").index
-        )
-        # FWD at least 1
-        starters += list(
-            squad_df.drop(index=starters).loc[squad_df["position"]=="FWD"].nlargest(1,"predicted_points").index
-        )
-        # fill up to 11 best remaining
-        need = 11 - len(starters)
-        if need > 0:
-            starters += list(
-                squad_df.drop(index=starters).nlargest(need,"predicted_points").index
-            )
-
-        squad_df["is_starter"] = squad_df.index.isin(starters).astype(int)
-
-    # bench ordering: highest predicted points first among bench
-    bench = squad_df[squad_df["is_starter"]==0].copy().sort_values("predicted_points", ascending=False)
     starters_df = squad_df[squad_df["is_starter"]==1].copy()
-
+    starters_df["bench_order"] = 0
     final = pd.concat([starters_df, bench], ignore_index=True)
-    final = final.sort_values(
-        by=["is_starter","position","predicted_points"],
-        ascending=[False, True, False]
-    )
 
     # save
     squad_path = f"teams/gw{GW}_squad.csv"
