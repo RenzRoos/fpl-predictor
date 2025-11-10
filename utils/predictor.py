@@ -3,11 +3,10 @@ import numpy as np
 import random
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
-import requests
 
-from get_player_data import get_player_match_history
-from feature_rows import build_X_pred_for_gw
-from play_probability import get_play_probability
+from utils.get_player_data import get_player_match_history
+from utils.feature_rows import build_X_pred_for_gw
+from utils.play_probability import get_play_probability
 
 def predict_gameweek(data: pd.DataFrame, players_df: pd.DataFrame, gw: int, FEATURES: list, TARGET: str, N_RUNS: int) -> pd.DataFrame:
     results = []
