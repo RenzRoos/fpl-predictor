@@ -154,14 +154,12 @@ def evaluate_team_performance(gameweek: int):
     print(f"Difference: {total_actual_points - total_predicted_points:.1f}")
     print()
 
-    # NEW: restrict to starting XI
     xi = team[team["is_starter"] == 1].copy()
 
-    # REPLACE totals with XI totals
     total_actual_points = xi["actual_points"].sum()
     total_predicted_points = xi["predicted_points"].fillna(0).sum()
 
-    # REPLACE prints
+
     print(f"Total predicted points for GW{gameweek} starting XI: {total_predicted_points:.1f}")
     print(f"Total actual points for GW{gameweek} starting XI: {total_actual_points:.1f}")
     print(f"Difference (XI): {total_actual_points - total_predicted_points:.1f}")
@@ -180,8 +178,4 @@ if __name__ == "__main__":
 
     GW = int(sys.argv[1])
 
-    # Example usage (assuming predictions_df and players DataFrame are available)
-    # create_team(GW, predictions_df, players)
-
-    # To evaluate team performance
     evaluate_team_performance(GW)

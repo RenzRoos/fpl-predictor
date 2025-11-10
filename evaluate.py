@@ -28,18 +28,7 @@ def evaluate_predictions(gameweek: int):
     print(f"RMSE: {rmse:.3f}")
     print(f"R²  : {r2:.3f}")
 
-    # scatter plot of actual vs predicted
-    plt.figure(figsize=(6,6))
-    plt.scatter(y_true, y_pred, alpha=0.6)
-    plt.plot([y_true.min(), y_true.max()],
-             [y_true.min(), y_true.max()],
-             color="red", linestyle="--", label="Perfect prediction")
-    plt.xlabel("Actual points")
-    plt.ylabel("Predicted points")
-    plt.title(f"FPL Prediction Accuracy (GW{gameweek})")
-    plt.legend()
-    plt.grid(True, alpha=0.3)
-    plt.show()
+
 
 if __name__ == "__main__":
     import sys
