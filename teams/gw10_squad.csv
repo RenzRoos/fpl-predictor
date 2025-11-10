@@ -1,16 +1,16 @@
-player_id,player_name,position,round,predicted_points,actual_points
-5,Gabriel,DEF,10,7.5,12
-226,Chalobah,DEF,10,6.045,7
-260,Guéhi,DEF,10,5.935,10
-8,J.Timber,DEF,10,5.69,6
-317,Andersen,DEF,10,5.5,6
-430,Haaland,FWD,10,8.55,13
-136,Thiago,FWD,10,6.165,2
-249,João Pedro,FWD,10,5.49,9
-670,Roefs,GK,10,5.995,2
-1,Raya,GK,10,5.91,6
-82,Semenyo,MID,10,6.745,2
-119,Mbeumo,MID,10,6.395,2
-449,B.Fernandes,MID,10,5.09,5
-241,Caicedo,MID,10,5.07,10
-120,Schade,MID,10,4.91,1
+player_id,player_name,position,round,is_starter,predicted_points,actual_points
+5,Gabriel,DEF,10,1,8.039,12
+260,Guéhi,DEF,10,1,5.863999999999999,10
+8,J.Timber,DEF,10,1,5.860000000000001,6
+226,Chalobah,DEF,10,1,5.827,7
+258,Mitchell,DEF,10,1,5.573,6
+430,Haaland,FWD,10,1,8.173,13
+136,Thiago,FWD,10,1,6.101999999999999,2
+249,João Pedro,FWD,10,1,5.371,9
+670,Roefs,GK,10,1,6.113,2
+119,Mbeumo,MID,10,1,6.732000000000001,2
+82,Semenyo,MID,10,1,6.605000000000001,2
+565,Vicario,GK,10,0,2.444,4
+47,Rogers,MID,10,0,2.599,1
+86,Brooks,MID,10,0,2.5889999999999995,2
+236,Neto,MID,10,0,2.5780000000000003,3

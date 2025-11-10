@@ -1,0 +1,16 @@
+player_id,player_name,position,round,is_starter,predicted_points,actual_points
+5,Gabriel,DEF,11,1,9.382,1
+8,J.Timber,DEF,11,1,7.053999999999999,1
+260,Guéhi,DEF,11,1,7.013,0
+226,Chalobah,DEF,11,1,6.431,6
+224,Cucurella,DEF,11,1,5.651,6
+430,Haaland,FWD,11,1,10.617,4
+136,Thiago,FWD,11,1,5.9590000000000005,13
+670,Roefs,GK,11,1,6.48,2
+82,Semenyo,MID,11,1,6.447,0
+241,Caicedo,MID,11,1,6.106,2
+21,Rice,MID,11,1,6.036,2
+97,Evanilson,FWD,11,0,2.467,2
+253,Henderson,GK,11,0,2.489,9
+350,Aaronson,MID,11,0,2.416,7
+490,Joelinton,MID,11,0,2.39,1

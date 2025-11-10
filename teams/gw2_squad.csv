@@ -1,0 +1,16 @@
+player_id,player_name,position,round,is_starter,predicted_points,actual_points
+5,Gabriel,DEF,2,1,8.453,6
+260,Guéhi,DEF,2,1,6.102,2
+258,Mitchell,DEF,2,1,5.755999999999999,1
+7,Calafiori,DEF,2,1,5.302,13
+37,Digne,DEF,2,1,5.2,2
+430,Haaland,FWD,2,1,10.874,2
+136,Thiago,FWD,2,1,5.643,2
+249,João Pedro,FWD,2,1,5.015,15
+1,Raya,GK,2,1,5.839,6
+119,Mbeumo,MID,2,1,7.090999999999999,2
+82,Semenyo,MID,2,1,6.419999999999999,6
+736,Donnarumma,GK,2,0,2.5730000000000004,0
+453,Garnacho,MID,2,0,2.618,0
+121,Damsgaard,MID,2,0,2.522,5
+83,O.Dango,MID,2,0,2.502,13

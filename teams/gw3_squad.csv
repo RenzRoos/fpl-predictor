@@ -1,0 +1,16 @@
+player_id,player_name,position,round,is_starter,predicted_points,actual_points
+5,Gabriel,DEF,3,1,8.952,2
+8,J.Timber,DEF,3,1,6.640000000000001,2
+37,Digne,DEF,3,1,5.35,1
+260,Guéhi,DEF,3,1,5.063999999999999,15
+430,Haaland,FWD,3,1,10.032,9
+136,Thiago,FWD,3,1,5.225,6
+178,Welbeck,FWD,3,1,5.198,2
+1,Raya,GK,3,1,5.906000000000001,2
+82,Semenyo,MID,3,1,6.9860000000000015,2
+119,Mbeumo,MID,3,1,5.351000000000001,10
+241,Caicedo,MID,3,1,5.110999999999999,4
+318,Bassey,DEF,3,0,2.48,1
+287,Pickford,GK,3,0,2.471,1
+452,Amad,MID,3,0,2.5,5
+121,Damsgaard,MID,3,0,2.495,2
