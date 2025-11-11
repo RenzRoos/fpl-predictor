@@ -23,16 +23,8 @@ def get_predicted_squad_score(gw: int) -> int:
     points = df[df["is_starter"] == 1]["actual_points"].sum()
     return int(points)
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python compare.py <gameweek> | -a")
-        sys.exit(1)
-
-    if not sys.argv[1].isdigit() and sys.argv[1] != "-a":
-        print("Gameweek must be an integer.")
-        sys.exit(1)
-
-    if sys.argv[1] == "-a":
+def compare_scores(gw: int, all: bool):
+    if all:
         avg_avg_scores, avg_scout_scores, avg_predicted_scores = 0, 0, 0
         for gw in range(1, len(os.listdir("teams")) + 1):
             avg_avg_scores += get_avg_manager_score_single(gw)
@@ -62,14 +54,26 @@ if __name__ == "__main__":
         plt.tight_layout()
         plt.show()
 
-
-
     else:
-        GW = int(sys.argv[1])
-        avg_score = get_avg_manager_score_single(GW)
-        scout_score = get_scout_picks_score(GW)
-        predicted_score = get_predicted_squad_score(GW)
-        print(f"Gameweek {GW} Comparison:")
+        avg_score = get_avg_manager_score_single(gw)
+        scout_score = get_scout_picks_score(gw)
+        predicted_score = get_predicted_squad_score(gw)
+        print(f"Gameweek {gw} Comparison:")
         print(f"Average Manager Score: {avg_score}")
         print(f"Scout Picks Actual Score: {scout_score}")   
         print(f"Predicted Squad Score: {predicted_score}")
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python compare.py <gameweek> | -a")
+        sys.exit(1)
+
+    if not sys.argv[1].isdigit() and sys.argv[1] != "-a":
+        print("Gameweek must be an integer.")
+        sys.exit(1)
+
+    gw = int(sys.argv[1])
+    if sys.argv[1] == "-a":
+        compare_scores(gw, all=True)
+    else:
+        compare_scores(gw, all=False)

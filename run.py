@@ -3,6 +3,7 @@ import sys
 from utils.main import main as run_main
 from utils.evaluate import evaluate as run_evaluate
 from utils.scout_get_data import scout_get_data as run_scout
+from utils.compare import compare_scores
 
 def m(gw: int, end: int, i: int) -> int:
     if len(sys.argv) > i + 1:
@@ -37,9 +38,12 @@ def s(gw: int, end: int, i: int):
         for j in range(gw, end + 1):
             run_scout(j, evaluate)
 
+def c(gw: int, all: bool):
+    compare_scores(gw, all)
+
 if __name__ == "__main__":
     if len(sys.argv) < 2 or sys.argv[1] == "-e" or sys.argv[1] == "-s":
-        raise SystemExit("Usage: run.py <GW> -m [end] -e -s[e]")
+        raise SystemExit("Usage: run.py <GW> -m [end] -e -s[e] -c[a]")
     
     if not sys.argv[1].isdigit():
         raise SystemExit("GW must be an integer.")
@@ -50,7 +54,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 2:
         i = 2
         while i in range(len(sys.argv)):
-            if sys.argv[i] not in ["-e", "-s", "-se", "-m"] and not sys.argv[i].isdigit():
+            if sys.argv[i] not in ["-e", "-s", "-se", "-m", "-c", "-ca"] and not sys.argv[i].isdigit():
                 raise SystemExit(f"Unknown argument: {sys.argv[i]}")
         
             if "-m" not in sys.argv and (sys.argv[i] == "-e" or sys.argv[i] == "-s" or sys.argv[i] == "-se") and i == 2:
@@ -64,7 +68,12 @@ if __name__ == "__main__":
 
             elif sys.argv[i] in ["-s", "-se"]:
                 s(gw, end, i)
-            
+
+            elif sys.argv[i] in ["-c", "-ca"]:
+                all = sys.argv[i] == "-ca"
+                print( all)
+                c(gw, all)
+
             i += 1
     else:
         run_main(gw)
