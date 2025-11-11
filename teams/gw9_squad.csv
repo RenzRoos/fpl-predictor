@@ -1,16 +1,16 @@
 player_id,player_name,position,round,is_starter,predicted_points,actual_points
-5,Gabriel,DEF,9,1,8.433,9
-260,Guéhi,DEF,9,1,6.426,4
-226,Chalobah,DEF,9,1,6.345000000000001,1
-258,Mitchell,DEF,9,1,5.760999999999999,2
-224,Cucurella,DEF,9,1,5.475,1
-430,Haaland,FWD,9,1,9.882,2
-249,João Pedro,FWD,9,1,6.288,2
-136,Thiago,FWD,9,1,5.888000000000001,5
-670,Roefs,GK,9,1,6.004,4
-82,Semenyo,MID,9,1,6.787000000000001,3
-299,Ndiaye,MID,9,1,5.423,2
-314,Leno,GK,9,0,2.538,2
-129,Yarmoliuk,MID,9,0,2.502,1
-423,N.Gonzalez,MID,9,0,2.502,0
-698,Okafor,MID,9,0,2.502,4
+670,Roefs,GK,9,1,6.166,4
+1,Raya,GK,9,1,5.803,6
+5,Gabriel,DEF,9,1,8.290000000000001,9
+260,Guéhi,DEF,9,1,6.459999999999999,4
+226,Chalobah,DEF,9,1,6.454999999999998,1
+258,Mitchell,DEF,9,1,5.925,2
+82,Semenyo,MID,9,1,7.034000000000001,3
+299,Ndiaye,MID,9,1,5.41,2
+430,Haaland,FWD,9,1,9.842,2
+249,João Pedro,FWD,9,1,6.367,2
+136,Thiago,FWD,9,1,5.825,5
+256,Muñoz,DEF,9,0,5.648,2
+241,Caicedo,MID,9,0,5.177,2
+449,B.Fernandes,MID,9,0,4.99,4
+205,Cullen,MID,9,0,4.773000000000001,2

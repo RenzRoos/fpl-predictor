@@ -1,16 +1,16 @@
 player_id,player_name,position,round,is_starter,predicted_points,actual_points
-5,Gabriel,DEF,7,1,8.15,9
-226,Chalobah,DEF,7,1,6.092999999999999,0
-260,Guéhi,DEF,7,1,6.08,3
-258,Mitchell,DEF,7,1,5.792,1
-37,Digne,DEF,7,1,5.305,1
-430,Haaland,FWD,7,1,10.2,8
-136,Thiago,FWD,7,1,6.331,2
-249,João Pedro,FWD,7,1,6.058,2
-1,Raya,GK,7,1,5.698,6
-119,Mbeumo,MID,7,1,6.763,6
-26,Zubimendi,MID,7,1,5.674,3
-32,Martinez,GK,7,0,2.5760000000000005,1
-90,Scott,MID,7,0,2.469,4
-54,McGinn,MID,7,0,2.43,3
-698,Okafor,MID,7,0,2.412,8
+1,Raya,GK,7,1,5.69,6
+5,Gabriel,DEF,7,1,8.155,9
+260,Guéhi,DEF,7,1,6.133000000000001,3
+226,Chalobah,DEF,7,1,6.041,0
+258,Mitchell,DEF,7,1,5.772,1
+37,Digne,DEF,7,1,5.322,1
+119,Mbeumo,MID,7,1,6.702000000000001,6
+26,Zubimendi,MID,7,1,5.908999999999999,3
+430,Haaland,FWD,7,1,10.245,8
+136,Thiago,FWD,7,1,6.267,2
+249,João Pedro,FWD,7,1,6.051,2
+670,Roefs,GK,7,0,4.576,2
+381,M.Salah,MID,7,0,4.781,2
+241,Caicedo,MID,7,0,4.6370000000000005,10
+120,Schade,MID,7,0,4.621,1

@@ -1,11 +1,12 @@
 player_id,player_name,round,predicted_points,actual_points
-430,Haaland,5,9.413,9
-82,Semenyo,5,6.552,5
-249,João Pedro,5,5.982,2
-256,Muñoz,5,5.497,2
-565,Vicario,5,3.0780000000000003,1
-373,Virgil,5,2.9479999999999995,4
-515,Gibbs-White,5,2.922,2
-582,Kudus,5,2.588,7
-283,Mateta,5,2.489,6
-505,Milenković,5,1.247,2
+430,Haaland,5,9.435,9
+82,Semenyo,5,6.327,5
+249,João Pedro,5,6.069999999999999,2
+256,Muñoz,5,5.4990000000000006,2
+381,M.Salah,5,3.43,5
+373,Virgil,5,3.08,4
+565,Vicario,5,3.012,1
+515,Gibbs-White,5,2.935,2
+582,Kudus,5,2.661,7
+283,Mateta,5,2.479,6
+505,Milenković,5,1.265,2

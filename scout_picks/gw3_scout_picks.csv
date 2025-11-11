@@ -1,11 +1,12 @@
 player_id,player_name,round,predicted_points,actual_points
-430,Haaland,3,10.004,9
-249,João Pedro,3,5.075,9
-568,Pedro Porro,3,4.212000000000001,4
-224,Cucurella,3,3.154,6
-515,Gibbs-White,3,2.747,2
-121,Damsgaard,3,2.641,2
-450,Cunha,3,2.079,1
-525,Wood,3,1.944,2
-502,Sels,3,1.882,2
-441,Dorgu,3,1.264,0
+430,Haaland,3,10.275,9
+249,João Pedro,3,5.095000000000001,9
+568,Pedro Porro,3,4.094999999999999,4
+449,B.Fernandes,3,3.636,10
+224,Cucurella,3,3.0409999999999995,6
+515,Gibbs-White,3,2.784,2
+121,Damsgaard,3,2.571,2
+450,Cunha,3,2.085,1
+502,Sels,3,1.899,2
+525,Wood,3,1.802,2
+441,Dorgu,3,1.354,0

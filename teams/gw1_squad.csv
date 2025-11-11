@@ -1,16 +1,16 @@
 player_id,player_name,position,round,is_starter,predicted_points,actual_points
-5,Gabriel,DEF,1,1,8.614,6
-8,J.Timber,DEF,1,1,7.2,0
-260,Guéhi,DEF,1,1,5.409,6
-226,Chalobah,DEF,1,1,4.964,6
-430,Haaland,FWD,1,1,8.791,13
-249,João Pedro,FWD,1,1,5.476,2
-1,Raya,GK,1,1,5.757000000000001,10
-119,Mbeumo,MID,1,1,7.15,2
-82,Semenyo,MID,1,1,5.876,15
-299,Ndiaye,MID,1,1,5.053,2
-236,Neto,MID,1,1,5.016,3
-444,Yoro,DEF,1,0,2.431,4
-337,Raúl,FWD,1,0,2.239,2
-314,Leno,GK,1,0,2.478,3
-303,Garner,MID,1,0,2.53,2
+1,Raya,GK,1,1,5.715999999999999,10
+5,Gabriel,DEF,1,1,8.584999999999999,6
+8,J.Timber,DEF,1,1,7.069,0
+260,Guéhi,DEF,1,1,5.470999999999999,6
+7,Calafiori,DEF,1,1,5.292,13
+226,Chalobah,DEF,1,1,4.991,6
+119,Mbeumo,MID,1,1,7.066,2
+82,Semenyo,MID,1,1,5.6850000000000005,15
+299,Ndiaye,MID,1,1,5.148000000000001,2
+430,Haaland,FWD,1,1,8.410999999999998,13
+249,João Pedro,FWD,1,1,5.448,2
+565,Vicario,GK,1,0,2.867,9
+236,Neto,MID,1,0,4.83,3
+120,Schade,MID,1,0,4.815,1
+714,Woltemade,FWD,1,0,4.781000000000001,0

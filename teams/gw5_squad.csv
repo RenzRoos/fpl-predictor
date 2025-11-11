@@ -1,16 +1,16 @@
 player_id,player_name,position,round,is_starter,predicted_points,actual_points
-5,Gabriel,DEF,5,1,8.404,2
-8,J.Timber,DEF,5,1,7.389,1
-694,Mukiele,DEF,5,1,5.918,4
-224,Cucurella,DEF,5,1,5.619999999999999,0
-256,Muñoz,DEF,5,1,5.455,2
-430,Haaland,FWD,5,1,9.406,9
-249,João Pedro,FWD,5,1,5.9670000000000005,2
-136,Thiago,FWD,5,1,5.729,2
-1,Raya,GK,5,1,5.796,2
-119,Mbeumo,MID,5,1,7.314,3
-82,Semenyo,MID,5,1,6.299000000000001,5
-736,Donnarumma,GK,5,0,2.412,1
-547,E.Le Fée,MID,5,0,2.631,2
-354,Ampadu,MID,5,0,2.617,4
-490,Joelinton,MID,5,0,2.596,0
+1,Raya,GK,5,1,5.751,2
+5,Gabriel,DEF,5,1,8.5,2
+8,J.Timber,DEF,5,1,7.357000000000001,1
+694,Mukiele,DEF,5,1,6.092,4
+256,Muñoz,DEF,5,1,5.770999999999999,2
+224,Cucurella,DEF,5,1,5.518,0
+119,Mbeumo,MID,5,1,7.106,3
+82,Semenyo,MID,5,1,6.540000000000001,5
+430,Haaland,FWD,5,1,9.522,9
+249,João Pedro,FWD,5,1,6.044,2
+136,Thiago,FWD,5,1,5.776000000000001,2
+670,Roefs,GK,5,0,4.668000000000001,2
+21,Rice,MID,5,0,4.865,3
+16,Saka,MID,5,0,4.686,1
+241,Caicedo,MID,5,0,4.644,4
