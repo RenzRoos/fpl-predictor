@@ -4,6 +4,7 @@ from utils.main import main as run_main
 from utils.evaluate import evaluate as run_evaluate
 from utils.scout_get_data import scout_get_data as run_scout
 from utils.compare import compare_scores
+import os
 
 def m(gw: int, end: int, i: int) -> int:
     if len(sys.argv) > i + 1:
@@ -57,7 +58,8 @@ if __name__ == "__main__":
             if sys.argv[i] not in ["-e", "-s", "-se", "-m", "-c", "-ca"] and not sys.argv[i].isdigit():
                 raise SystemExit(f"Unknown argument: {sys.argv[i]}")
         
-            if "-m" not in sys.argv and (sys.argv[i] == "-e" or sys.argv[i] == "-s" or sys.argv[i] == "-se") and i == 2:
+            if ("-m" not in sys.argv and i == 2  
+                and os.path.exists(f"data/gw{gw}_predicted_points.csv") == False):
                 run_main(gw)
 
             elif sys.argv[i] == "-m":
@@ -67,11 +69,14 @@ if __name__ == "__main__":
                 e(gw, end)
 
             elif sys.argv[i] in ["-s", "-se"]:
+                if not os.path.exists(f"scout/gw{gw}_scout_data.csv"):
+                    SystemExit(f"Scout data for GW{gw} not found.")
                 s(gw, end, i)
 
-            elif sys.argv[i] in ["-c", "-ca"]:
+            elif (sys.argv[i] in ["-c", "-ca"] and 
+                os.path.exists(f"teams/gw{gw}_squad.csv") and os.path.exists(f"scout/gw{gw}_scout_picks.csv")):
                 all = sys.argv[i] == "-ca"
-                print( all)
+                print(all)
                 c(gw, all)
 
             i += 1
