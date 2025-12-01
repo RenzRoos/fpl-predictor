@@ -12,7 +12,8 @@ def m(gw: int, end: int, i: int) -> int:
             end = int(sys.argv[i + 1])
 
             for j in range(gw, end + 1):
-                run_main(j)
+                if os.path.exists(f"data/gw{j}_predicted_points.csv") == False:
+                    run_main(j)
 
         else:
             raise SystemExit("End GW must be an integer.")
@@ -58,8 +59,7 @@ if __name__ == "__main__":
             if sys.argv[i] not in ["-e", "-s", "-se", "-m", "-c", "-ca"] and not sys.argv[i].isdigit():
                 raise SystemExit(f"Unknown argument: {sys.argv[i]}")
         
-            if ("-m" not in sys.argv and i == 2  
-                and os.path.exists(f"data/gw{gw}_predicted_points.csv") == False):
+            if os.path.exists(f"data/gw{gw}_predicted_points.csv") == False:
                 run_main(gw)
 
             elif sys.argv[i] == "-m":
