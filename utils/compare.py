@@ -1,12 +1,13 @@
-import requests
 import pandas as pd
 import sys
 import os
 import matplotlib.pyplot as plt
 import numpy as np
 
+from utils.request_data import request_data
+
 def get_avg_manager_score_single(gw: int) -> int:
-    data = requests.get("https://fantasy.premierleague.com/api/bootstrap-static/").json()
+    data =  request_data("https://fantasy.premierleague.com/api/bootstrap-static/")
     events = pd.DataFrame(data["events"])
     row = events.loc[events["id"] == gw, "average_entry_score"]
     return int(row.iloc[0]) if not row.empty else 0

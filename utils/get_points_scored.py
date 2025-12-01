@@ -1,6 +1,7 @@
 import pandas as pd
-import requests
 import sys
+
+from utils.request_data import request_data
 
 def update_actual_points(gameweek: int):
     csv_path = f"data/gw{gameweek}_predicted_points.csv"
@@ -10,7 +11,7 @@ def update_actual_points(gameweek: int):
 
     for pid in df['player_id']:
         # pull match history for this player
-        hist = requests.get(f"https://fantasy.premierleague.com/api/element-summary/{pid}/").json()
+        hist = request_data(f"https://fantasy.premierleague.com/api/element-summary/{pid}/") 
         df_hist = pd.DataFrame(hist.get("history", []))
 
         gw = int(gameweek)

@@ -1,22 +1,55 @@
 import sys
 import pandas as pd
-import requests
 
 from utils.predictor import predict_gameweek
 from utils.select_team import create_team
-from utils.config import FEATURES, TARGET
+from utils.config import FEATURES, PLAYER_TARGETS
+from utils.compute_points import compute_predicted_points
+from utils.estimate_goals_conceded import estimate_team_goals_conceded
+from utils.request_data import request_data
 
 def main(gw: int):
-    data = requests.get("https://fantasy.premierleague.com/api/bootstrap-static/").json()
-    players = pd.DataFrame(data['elements'])
+    data = request_data("https://fantasy.premierleague.com/api/bootstrap-static/")
+    players = pd.DataFrame(data["elements"])
 
-    predictions_df = predict_gameweek(data, players, gw, FEATURES, TARGET, N_RUNS=5)
+    players = players[players["minutes"] > 90]
+
+    all_preds = None
+
+    # run a separate model per player-level target, then merge
+    for target in PLAYER_TARGETS:
+        df_t = predict_gameweek(data, players, gw, FEATURES, target, N_RUNS=5)
+        colname = f"predicted_{target}"
+
+        if all_preds is None:
+            all_preds = df_t[["player_id", "player_name", "round", colname]].copy()
+        else:
+            all_preds = all_preds.merge(
+                df_t[["player_id", colname]],
+                on="player_id",
+                how="left"
+            )
+
+    if all_preds is None or all_preds.empty:
+        raise SystemExit(f"No predictions produced for GW{gw}")
+
+    # ---------- NEW: predict goals_conceded per team once ----------
+    
+    team_ga = estimate_team_goals_conceded(data, gw)  # Series indexed by team_id
+
+    # ---------- use team_gc in per-player points ----------
+
+    all_preds["predicted_points"] = compute_predicted_points(all_preds, players, team_ga)
 
     out_path = f"data/gw{gw}_predicted_points.csv"
-    predictions_df.to_csv(out_path, columns=["player_id","player_name","round","predicted_points"], index=False)
+    all_preds.to_csv(
+        out_path,
+        columns=["player_id", "player_name", "round", "predicted_points"],
+        index=False
+    )
     print(f"Saved predictions to {out_path}")
 
-    create_team(gw, predictions_df, players)
+    create_team(gw, all_preds, players)
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
