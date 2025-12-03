@@ -13,6 +13,7 @@ def evaluate_scout_picks(gw: int):
     all_players = pd.read_csv(pred_path)[["player_id", "actual_points"]]
 
     team = df.merge(all_players, on="player_id", how="left")
+    print(team.columns)
     team["actual_points"] = team["actual_points"].fillna(0)
 
     total_actual_points = team["actual_points"].sum()

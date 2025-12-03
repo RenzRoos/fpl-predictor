@@ -12,13 +12,12 @@ def m(gw: int, end: int, i: int) -> int:
             end = int(sys.argv[i + 1])
 
             for j in range(gw, end + 1):
-                run_main(j)
-
+                if os.path.exists(f"data/gw{j}_predicted_points.csv") == False:
+                    run_main(j)
         else:
             raise SystemExit("End GW must be an integer.")
     else:
         raise SystemExit("End GW must be specified after -m.")
-    
     return end, i+1
 
 def e(gw: int, end: int):
@@ -45,11 +44,9 @@ def c(gw: int, all: bool):
 if __name__ == "__main__":
     if len(sys.argv) < 2 or sys.argv[1] == "-e" or sys.argv[1] == "-s":
         raise SystemExit("Usage: run.py <GW> -m [end] -e -s[e] -c[a]")
-    
     if not sys.argv[1].isdigit():
         raise SystemExit("GW must be an integer.")
     gw = int(sys.argv[1])
-
     end = -1
 
     if len(sys.argv) > 2:
@@ -57,12 +54,11 @@ if __name__ == "__main__":
         while i in range(len(sys.argv)):
             if sys.argv[i] not in ["-e", "-s", "-se", "-m", "-c", "-ca"] and not sys.argv[i].isdigit():
                 raise SystemExit(f"Unknown argument: {sys.argv[i]}")
-        
-            if ("-m" not in sys.argv and i == 2  
-                and os.path.exists(f"data/gw{gw}_predicted_points.csv") == False):
+            
+            if os.path.exists(f"data/gw{gw}_predicted_points.csv") == False:
                 run_main(gw)
 
-            elif sys.argv[i] == "-m":
+            if sys.argv[i] == "-m":
                 end, i = m(gw, end, i)              
 
             elif sys.argv[i] == "-e":
@@ -76,12 +72,8 @@ if __name__ == "__main__":
             elif (sys.argv[i] in ["-c", "-ca"] and 
                 os.path.exists(f"teams/gw{gw}_squad.csv") and os.path.exists(f"scout/gw{gw}_scout_picks.csv")):
                 all = sys.argv[i] == "-ca"
-                print(all)
                 c(gw, all)
 
             i += 1
     else:
         run_main(gw)
-
-
-
