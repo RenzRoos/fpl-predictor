@@ -1,12 +1,11 @@
+import requests
 import pandas as pd
 import numpy as np
-
-from utils.request_data import request_data
 
 def get_play_probability(player_meta, gw_requested: int) -> float:
     # Determine current live GW from fixtures API
     fixtures = pd.DataFrame(
-        request_data("https://fantasy.premierleague.com/api/fixtures/")
+        requests.get("https://fantasy.premierleague.com/api/fixtures/").json()
     )
     current_gw = int(fixtures.loc[fixtures["finished"] == True, "event"].max()) + 1
 

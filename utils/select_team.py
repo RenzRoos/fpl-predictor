@@ -39,31 +39,10 @@ def create_team(GW: int, predictions_df: pd.DataFrame, players: pd.DataFrame):
     xi_idx += list(squad_df.drop(index=xi_idx).loc[squad_df["position"]=="MID"].nlargest(2, "predicted_points").index)
     xi_idx += list(squad_df.drop(index=xi_idx).loc[squad_df["position"]=="FWD"].nlargest(1, "predicted_points").index)
 
-    # fill remaining slots to 11 with highest predicted points,
-    # but respect max per position
-    max_counts = {"GK": 1, "DEF": 5, "MID": 5, "FWD": 3}
-
-    # current counts from the already chosen required minimums
-    current_counts = (
-        squad_df.loc[xi_idx, "position"]
-        .value_counts()
-        .to_dict()
-    )
-
-    candidates = squad_df.drop(index=xi_idx).sort_values(
-        "predicted_points", ascending=False
-    )
-
-    for idx, row in candidates.iterrows():
-        pos = row["position"]
-        if current_counts.get(pos, 0) >= max_counts[pos]:
-            continue
-
-        xi_idx.append(idx)
-        current_counts[pos] = current_counts.get(pos, 0) + 1
-
-        if len(xi_idx) == 11:
-            break
+    # fill remaining slots to 11 with highest predicted points
+    need = 11 - len(xi_idx)
+    if need > 0:
+        xi_idx += list(squad_df.drop(index=xi_idx).nlargest(need, "predicted_points").index)
 
     squad_df["is_starter"] = squad_df.index.isin(xi_idx).astype(int)
 
