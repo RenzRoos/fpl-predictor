@@ -1,7 +1,6 @@
+import requests
 import pandas as pd
 from functools import lru_cache
-
-from utils.request_data import request_data
 
 @lru_cache(maxsize=None)
 def get_fdr(gameweek: int, opponent: str, home: bool) -> int:
@@ -24,7 +23,7 @@ def get_fdr(gameweek: int, opponent: str, home: bool) -> int:
     """
 
     # Load team metadata for name <-> id mapping
-    bootstrap = request_data("https://fantasy.premierleague.com/api/bootstrap-static/")
+    bootstrap = requests.get("https://fantasy.premierleague.com/api/bootstrap-static/").json()
     teams = pd.DataFrame(bootstrap["teams"])[["id", "name"]]
     name_to_id = {n.lower(): i for i, n in zip(teams["id"], teams["name"])}
 
@@ -36,7 +35,7 @@ def get_fdr(gameweek: int, opponent: str, home: bool) -> int:
     opp_id = name_to_id[opp_name]
 
     # Get fixtures for the specified gameweek
-    fixtures = pd.DataFrame(request_data(f"https://fantasy.premierleague.com/api/fixtures/?event={gameweek}"))
+    fixtures = pd.DataFrame(requests.get(f"https://fantasy.premierleague.com/api/fixtures/?event={gameweek}").json())
     if fixtures.empty:
         return None
 
