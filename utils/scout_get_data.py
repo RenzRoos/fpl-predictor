@@ -1,9 +1,9 @@
-import requests
 import pandas as pd
 import sys 
 
 from utils.config import FEATURES, TARGET
 from utils.predictor import predict_gameweek
+from utils.request_data import request_data
 
 def evaluate_scout_picks(gw: int):
     squad_path = f"scout_picks/gw{gw}_scout_picks.csv"
@@ -26,7 +26,7 @@ def evaluate_scout_picks(gw: int):
     print(f"Updated {squad_path} with actual_points column.")
 
 def scout_get_data(gw: int, evaluate: bool = False):
-    data = requests.get("https://fantasy.premierleague.com/api/bootstrap-static/").json()
+    data = request_data("https://fantasy.premierleague.com/api/bootstrap-static/")
     players = pd.DataFrame(data["elements"])
 
     scout_picks = pd.read_csv(f"scout_picks/gw{gw}_scout_picks.csv")

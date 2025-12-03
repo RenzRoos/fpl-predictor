@@ -2,6 +2,7 @@ import pandas as pd
 import requests
 import numpy as np
 from utils.fdr_score import get_fdr
+from utils.request_data import request_data
 
 def get_player_match_history(data: pd.DataFrame, player_id: int) -> pd.DataFrame:
     # Player -> team id and name maps
@@ -12,7 +13,7 @@ def get_player_match_history(data: pd.DataFrame, player_id: int) -> pd.DataFrame
     team_id = int(players.loc[players["id"] == player_id, "team"].iloc[0])
 
     # Fixtures -> only finished
-    fixtures = pd.DataFrame(requests.get("https://fantasy.premierleague.com/api/fixtures/").json())
+    fixtures = pd.DataFrame(request_data("https://fantasy.premierleague.com/api/fixtures/"))
     fixtures = fixtures.dropna(subset=["event"])
     played = fixtures[(fixtures["finished"] == True) | (fixtures["finished_provisional"] == True)]
 
@@ -32,7 +33,7 @@ def get_player_match_history(data: pd.DataFrame, player_id: int) -> pd.DataFrame
     ]].sort_values(["round","kickoff_time"]).reset_index(drop=True)
 
     # Player per-match history (only rounds where he played > 0 mins are present)
-    hist_json = requests.get(f"https://fantasy.premierleague.com/api/element-summary/{player_id}/").json()
+    hist_json = request_data(f"https://fantasy.premierleague.com/api/element-summary/{player_id}/")
     df_hist = pd.DataFrame(hist_json.get("history", []))
 
     # Broad column wishlist (many exist; some may not in older seasons)

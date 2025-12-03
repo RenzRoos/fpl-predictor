@@ -5,9 +5,10 @@ import requests
 from utils.predictor import predict_gameweek
 from utils.select_team import create_team
 from utils.config import FEATURES, TARGET
+from utils.request_data import request_data
 
 def main(gw: int):
-    data = requests.get("https://fantasy.premierleague.com/api/bootstrap-static/").json()
+    data = request_data("https://fantasy.premierleague.com/api/bootstrap-static/")
     players = pd.DataFrame(data['elements'])
 
     predictions_df = predict_gameweek(data, players, gw, FEATURES, TARGET, N_RUNS=5)
