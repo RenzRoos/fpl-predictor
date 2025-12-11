@@ -1,0 +1,16 @@
+player_id,player_name,position,round,is_starter,predicted_points,actual_points
+1,Raya,GK,15,1,5.698,2
+226,Chalobah,DEF,15,1,7.026000000000001,11
+256,Muñoz,DEF,15,1,6.316,0
+7,Calafiori,DEF,15,1,5.781,1
+260,Guéhi,DEF,15,1,5.58,8
+119,Mbeumo,MID,15,1,5.881,8
+82,Semenyo,MID,15,0,5.266,3
+236,Neto,MID,15,1,5.231999999999999,2
+430,Haaland,FWD,15,1,9.52,2
+714,Woltemade,FWD,15,1,5.508000000000001,2
+249,João Pedro,FWD,15,1,5.455,1
+736,Donnarumma,GK,15,0,3.47,6
+449,B.Fernandes,MID,15,1,5.048,18
+16,Saka,MID,15,0,4.975,4
+258,Mitchell,DEF,15,0,4.831,2
