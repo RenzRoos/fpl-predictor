@@ -70,8 +70,9 @@ if __name__ == "__main__":
                 s(gw, end, i)
 
             elif (sys.argv[i] in ["-c", "-ca"] and 
-                os.path.exists(f"teams/gw{gw}_squad.csv") and os.path.exists(f"scout/gw{gw}_scout_picks.csv")):
+                os.path.exists(f"teams/gw{gw}_squad.csv") and os.path.exists(f"scout_picks/gw{gw}_scout_picks.csv")):
                 all = sys.argv[i] == "-ca"
+                print("Comparing predicted scores to actual scout scores...")
                 c(gw, all)
 
             i += 1

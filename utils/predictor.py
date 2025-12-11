@@ -60,6 +60,9 @@ def predict_gameweek(data: pd.DataFrame, players_df: pd.DataFrame, gw: int, FEAT
         p_play = get_play_probability(meta_row, gw)
         if np.isnan(p_play):
             p_play = 100.0
+        
+        # if p_play < 100.0:
+        #     print(f"Player {name} (ID: {pid}) has a playing probability of {p_play}% for GW{gw}. Adjusting prediction accordingly.")
 
         mean_pred *= (p_play / 100.0)
 

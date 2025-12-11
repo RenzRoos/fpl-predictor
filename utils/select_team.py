@@ -75,8 +75,6 @@ def evaluate_team_performance(gameweek: int):
     all_players = pd.read_csv(pred_path)[["player_id", "actual_points"]]
 
     team = df.merge(all_players, on="player_id", how="left")
-    team.drop(columns=["actual_points_x"], inplace=True)
-    team.rename(columns={"actual_points_y": "actual_points"}, inplace=True)
     team["actual_points"] = team["actual_points"].fillna(0)
 
     total_actual_points = team["actual_points"].sum()

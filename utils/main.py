@@ -1,6 +1,5 @@
 import sys
 import pandas as pd
-import requests
 
 from utils.predictor import predict_gameweek
 from utils.select_team import create_team
@@ -10,6 +9,8 @@ from utils.request_data import request_data
 def main(gw: int):
     data = request_data("https://fantasy.premierleague.com/api/bootstrap-static/")
     players = pd.DataFrame(data['elements'])
+    players = players.where(players['minutes'] > 300).dropna(subset=['minutes'])
+    players["id"] = players["id"].astype(int)
 
     predictions_df = predict_gameweek(data, players, gw, FEATURES, TARGET, N_RUNS=5)
 
