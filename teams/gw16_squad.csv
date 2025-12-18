@@ -1,0 +1,16 @@
+player_id,player_name,position,round,is_starter,predicted_points,actual_points
+670,Roefs,GK,16,1,4.924,9
+7,Calafiori,DEF,16,1,6.058999999999999,0
+226,Chalobah,DEF,16,1,5.906,9
+317,Andersen,DEF,16,1,5.8420000000000005,2
+21,Rice,MID,16,1,5.327,2
+16,Saka,MID,16,1,5.319000000000001,11
+449,B.Fernandes,MID,16,1,5.311,13
+390,Gravenberch,MID,16,1,4.421,5
+430,Haaland,FWD,16,1,11.135,13
+136,Thiago,FWD,16,1,5.802,2
+249,João Pedro,FWD,16,1,5.7090000000000005,2
+1,Raya,GK,16,0,4.079,2
+694,Mukiele,DEF,16,0,4.250000000000001,8
+151,Van Hecke,DEF,16,0,4.15,1
+668,Xhaka,MID,16,0,4.138,3
