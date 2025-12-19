@@ -1,5 +1,4 @@
 import pandas as pd
-import requests
 import numpy as np
 from utils.fdr_score import get_fdr
 from utils.request_data import request_data
