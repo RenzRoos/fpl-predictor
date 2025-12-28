@@ -1,0 +1,24 @@
+best_mae: 0.3309
+best_rf_params: {'n_estimators': 1195, 'max_depth': 17, 'min_samples_split': 36, 'min_samples_leaf': 9, 'max_features': 'log2', 'bootstrap': True}
+
+Permutation importance (MAE increase):
+bps: 0.123912
+influence: 0.034636
+ict_index: 0.029770
+expected_goal_involvements: 0.006499
+expected_goals: 0.005429
+creativity: 0.005196
+clean_sheets: 0.005106
+goals_conceded: 0.003638
+expected_assists: 0.003378
+expected_goals_conceded: 0.002418
+fdr_score: 0.000344
+was_home: 0.000159
+own_goals: 0.000001
+status_played: 0.000000
+penalties_saved: 0.000000
+penalties_missed: 0.000000
+chance_of_playing_this_round: 0.000000
+chance_of_playing_next_round: 0.000000
+status_flag: 0.000000
+red_cards: -0.000000
