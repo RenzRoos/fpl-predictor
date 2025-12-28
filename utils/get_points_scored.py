@@ -4,7 +4,7 @@ import sys
 from utils.request_data import request_data
 
 def update_actual_points(gameweek: int):
-    csv_path = f"data/gw{gameweek}_predicted_points.csv"
+    csv_path = f"data/predicted_all/gw{gameweek}_predicted_points.csv"
 
     df = pd.read_csv(csv_path)
     updated = []

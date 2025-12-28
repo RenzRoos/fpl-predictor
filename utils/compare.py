@@ -13,7 +13,7 @@ def get_avg_manager_score_single(gw: int) -> int:
     return int(row.iloc[0]) if not row.empty else 0
 
 def get_scout_picks_score(gw: int) -> int:
-    squad_path = f"scout_picks/gw{gw}_scout_picks.csv"
+    squad_path = f"data/scout_picks/gw{gw}_scout_picks.csv"
     df = pd.read_csv(squad_path)
     points = df["actual_points"].sum()
     return int(points)

@@ -12,7 +12,7 @@ def m(gw: int, end: int, i: int) -> int:
             end = int(sys.argv[i + 1])
 
             for j in range(gw, end + 1):
-                if os.path.exists(f"data/gw{j}_predicted_points.csv") == False:
+                if os.path.exists(f"data/predicted_all/gw{j}_predicted_points.csv") == False:
                     run_main(j)
         else:
             raise SystemExit("End GW must be an integer.")
@@ -55,7 +55,7 @@ if __name__ == "__main__":
             if sys.argv[i] not in ["-e", "-s", "-se", "-m", "-c", "-ca"] and not sys.argv[i].isdigit():
                 raise SystemExit(f"Unknown argument: {sys.argv[i]}")
             
-            if os.path.exists(f"data/gw{gw}_predicted_points.csv") == False:
+            if os.path.exists(f"data/predicted_all/gw{gw}_predicted_points.csv") == False:
                 run_main(gw)
 
             if sys.argv[i] == "-m":
@@ -65,12 +65,12 @@ if __name__ == "__main__":
                 e(gw, end)
 
             elif sys.argv[i] in ["-s", "-se"]:
-                if not os.path.exists(f"scout/gw{gw}_scout_data.csv"):
+                if not os.path.exists(f"data/scout_picks/gw{gw}_scout_data.csv"):
                     SystemExit(f"Scout data for GW{gw} not found.")
                 s(gw, end, i)
 
             elif (sys.argv[i] in ["-c", "-ca"] and 
-                os.path.exists(f"teams/gw{gw}_squad.csv") and os.path.exists(f"scout_picks/gw{gw}_scout_picks.csv")):
+                os.path.exists(f"data/teams/gw{gw}_squad.csv") and os.path.exists(f"data/scout_picks/gw{gw}_scout_picks.csv")):
                 all = sys.argv[i] == "-ca"
                 print("Comparing predicted scores to actual scout scores...")
                 c(gw, all)

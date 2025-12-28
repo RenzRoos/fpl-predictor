@@ -1,12 +1,8 @@
 import pandas as pd
 import sys 
 
-from utils.config import FEATURES, TARGET
-from utils.predictor import predict_gameweek
-from utils.request_data import request_data
-
 def evaluate_scout_picks(gw: int):
-    squad_path = f"scout_picks/gw{gw}_scout_picks.csv"
+    squad_path = f"data/scout_picks/gw{gw}_scout_picks.csv"
     df = pd.read_csv(squad_path)
 
     pred_path = f"data/gw{gw}_predicted_points.csv"
@@ -26,19 +22,27 @@ def evaluate_scout_picks(gw: int):
     print(f"Updated {squad_path} with actual_points column.")
 
 def scout_get_data(gw: int, evaluate: bool = False):
-    data = request_data("https://fantasy.premierleague.com/api/bootstrap-static/")
-    players = pd.DataFrame(data["elements"])
+    # load raw scout picks (names-only or with minimal columns)
+    scout_path = f"data/scout_picks/gw{gw}_scout_picks.csv"
+    scout_raw = pd.read_csv(scout_path)
 
-    scout_picks = pd.read_csv(f"scout_picks/gw{gw}_scout_picks.csv")
-    scout_picks = players[players["web_name"].isin(scout_picks["player_name"])].copy()
+    # load global predictions (produced by main.py)
+    pred_path = f"data/gw{gw}_predicted_points.csv"
+    preds = pd.read_csv(pred_path)[["player_id", "player_name", "round", "predicted_points"]]
 
-    predictions_df = predict_gameweek(data, scout_picks, gw, FEATURES, TARGET, N_RUNS=5)
+    # merge by player_name (scout names must match web_name in preds)
+    merged = scout_raw.merge(
+        preds,
+        on="player_name",
+        how="left"
+    )
 
-    predictions_df.to_csv(f"scout_picks/gw{gw}_scout_picks.csv", index=False)
-    print(f"Updated scout_picks/gw{gw}_scout_picks.csv with predicted points and player IDs.")
+    merged.to_csv(scout_path, index=False)
+    print(f"Updated {scout_path} with player_id, round and predicted_points.")
 
     if evaluate:
         evaluate_scout_picks(gw)
+
 
         
 if __name__ == "__main__":

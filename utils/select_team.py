@@ -1,6 +1,7 @@
 import pandas as pd
 import sys
 import pandas as pd
+from utils.request_data import request_data
 
 def create_team(GW: int, predictions_df: pd.DataFrame, players: pd.DataFrame):
 
@@ -20,7 +21,7 @@ def create_team(GW: int, predictions_df: pd.DataFrame, players: pd.DataFrame):
 
     # keep needed cols and clean
     df["predicted_points"] = pd.to_numeric(df["predicted_points"], errors="coerce").fillna(0.0)
-    df = df[["player_id","player_name","position","round","predicted_points","team"]].reset_index(drop=True)
+    df = df[["player_id","player_name","position","predicted_points","team", "predicted_minutes", "predicted_goals_scored", "predicted_assists", "predicted_yellow_cards", "predicted_bonus", "predicted_saves", "predicted_clean_sheet", "predicted_goals_conceded"]].reset_index(drop=True)
 
     # --- SQUAD: top-N per position (no team cap) ---
     gks  = df.loc[df["position"] == "GK"].nlargest(2, "predicted_points")
@@ -58,8 +59,9 @@ def create_team(GW: int, predictions_df: pd.DataFrame, players: pd.DataFrame):
     final = pd.concat([starters_df, bench], ignore_index=True)
 
     # save
-    squad_path = f"teams/gw{GW}_squad.csv"
-    cols = ["player_id","player_name","position","round", "is_starter","predicted_points"]
+    squad_path = f"data/teams/gw{GW}_squad.csv"
+    cols = ["player_id","player_name","position", "is_starter","predicted_points", "predicted_minutes", "predicted_goals_scored", "predicted_assists", "predicted_yellow_cards", "predicted_bonus", "predicted_saves", "predicted_clean_sheet", "predicted_goals_conceded"]
+
     final[cols].to_csv(squad_path, index=False)
     print(f"Saved squad + lineup to {squad_path}")
 
@@ -68,10 +70,10 @@ def create_team(GW: int, predictions_df: pd.DataFrame, players: pd.DataFrame):
 
 def evaluate_team_performance(gameweek: int):
     """Sum actual points of the chosen 15-man squad and update the file."""
-    squad_path = f"teams/gw{gameweek}_squad.csv"
+    squad_path = f"data/teams/gw{gameweek}_squad.csv"
     df = pd.read_csv(squad_path)
 
-    pred_path = f"data/gw{gameweek}_predicted_points.csv"
+    pred_path = f"data/predicted_all/gw{gameweek}_predicted_points.csv"
     all_players = pd.read_csv(pred_path)[["player_id", "actual_points"]]
 
     team = df.merge(all_players, on="player_id", how="left")
@@ -111,4 +113,8 @@ if __name__ == "__main__":
 
     GW = int(sys.argv[1])
 
+    data = request_data("https://fantasy.premierleague.com/api/bootstrap-static/")
+    players = pd.DataFrame(data["elements"])
+    
+    create_team(GW, pd.read_csv(f"data/predicted_all/gw{GW}_predicted_points.csv"), players)
     evaluate_team_performance(GW)

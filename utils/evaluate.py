@@ -7,7 +7,7 @@ from utils.select_team import evaluate_team_performance
 
 def evaluate_predictions(gameweek: int):
     """Evaluate model accuracy for a given gameweek."""
-    csv_path = f"data/gw{gameweek}_predicted_points.csv"
+    csv_path = f"data/predicted_all/gw{gameweek}_predicted_points.csv"
     df = pd.read_csv(csv_path)
 
     mask = ~((df["predicted_points"] == 0) & (df["actual_points"] == 0))
