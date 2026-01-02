@@ -5,11 +5,14 @@ def evaluate_scout_picks(gw: int):
     squad_path = f"data/scout_picks/gw{gw}_scout_picks.csv"
     df = pd.read_csv(squad_path)
 
-    pred_path = f"data/gw{gw}_predicted_points.csv"
+    pred_path = f"data/predicted_all/gw{gw}_predicted_points.csv"
     all_players = pd.read_csv(pred_path)[["player_id", "actual_points"]]
 
     team = df.merge(all_players, on="player_id", how="left")
     team["actual_points"] = team["actual_points"].fillna(0)
+
+    team = team.rename(columns={"predicted_points_x": "predicted_points"})
+    team = team.drop(columns=["predicted_points_y"])
 
     total_actual_points = team["actual_points"].sum()
     total_predicted_points = team["predicted_points"].fillna(0).sum()
@@ -27,15 +30,19 @@ def scout_get_data(gw: int, evaluate: bool = False):
     scout_raw = pd.read_csv(scout_path)
 
     # load global predictions (produced by main.py)
-    pred_path = f"data/gw{gw}_predicted_points.csv"
-    preds = pd.read_csv(pred_path)[["player_id", "player_name", "round", "predicted_points"]]
+    pred_path = f"data/predicted_all/gw{gw}_predicted_points.csv"
+    preds = pd.read_csv(pred_path)[["player_id", "player_name", "predicted_points"]]
 
     # merge by player_name (scout names must match web_name in preds)
     merged = scout_raw.merge(
         preds,
         on="player_name",
-        how="left"
+        how="left",
     )
+
+    merged["player_id_x"] = merged["player_id_y"].fillna(0).astype(int)
+    merged = merged.rename(columns={"player_id_x": "player_id"})
+    merged = merged.drop(columns=["player_id_y"])
 
     merged.to_csv(scout_path, index=False)
     print(f"Updated {scout_path} with player_id, round and predicted_points.")
