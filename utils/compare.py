@@ -1,4 +1,3 @@
-import requests
 import pandas as pd
 import sys
 import os
@@ -19,7 +18,7 @@ def get_scout_picks_score(gw: int) -> int:
     return int(points)
 
 def get_predicted_squad_score(gw: int) -> int:
-    squad_path = f"teams/gw{gw}_squad.csv"
+    squad_path = f"data/teams/gw{gw}_squad.csv"
     df = pd.read_csv(squad_path)
     points = df[df["is_starter"] == 1]["actual_points"].sum()
     return int(points)
