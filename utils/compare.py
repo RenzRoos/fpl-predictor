@@ -26,11 +26,12 @@ def get_predicted_squad_score(gw: int) -> int:
 def compare_scores(gw: int, all: bool):
     if all:
         avg_avg_scores, avg_scout_scores, avg_predicted_scores = 0, 0, 0
-        for gw in range(1, len(os.listdir("teams")) + 1):
+        for gw in range(1, len(os.listdir("data/teams")) + 1):
+            print(gw)
             avg_avg_scores += get_avg_manager_score_single(gw)
             avg_scout_scores += get_scout_picks_score(gw)
             avg_predicted_scores += get_predicted_squad_score(gw)
-        total_gws = len(os.listdir("teams"))
+        total_gws = len(os.listdir("data/teams"))
         print(f"Average Manager Score across all GWs: {avg_avg_scores / total_gws}")
         print(f"Scout Picks Actual Score across all GWs: {avg_scout_scores / total_gws}")   
         print(f"Predicted Squad Score across all GWs: {avg_predicted_scores / total_gws}")
